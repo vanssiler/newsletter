@@ -1,0 +1,194 @@
+@blue : #213069;
+@white : #ffffff;
+
+@transition: all 0.3s ease-out;
+
+.newsletter_overlay{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.newsletter_lightbox{
+    transition: @transition;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 11;
+    max-width: 800px;
+    transform: translate(-50%, -50%);
+    background: @white;
+    padding: 15px;
+    border-radius: 5px;
+    max-height: 100%;
+    display: flex;
+
+    @media(max-width:640px){
+        width: 80%;
+    }
+    @media(min-width: 640px) and (max-width: 768px){
+        width: 60%;
+    }
+
+    img{
+        display: block;
+    }
+    h1,
+    h2,
+    h3,
+    h4{
+        margin: 0;
+    }
+
+    .block{
+        &.newsletter{
+            display: flex;
+            max-width: 100%;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+            @media(min-width: 768px){
+                flex-wrap: nowrap;
+            }
+
+            .newsletter_banner{
+                flex: 1 0 100%;
+                @media(min-width: 768px){
+                    flex: 1 0 55%;
+                }
+            }
+
+            .newsletter_actions{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                @media(min-width: 768px){
+                    padding: 0 0 0 15px;
+                }
+
+                .content{
+                    margin-bottom: 30px;
+                }
+                &__form{
+                    .form.subscribe{
+                        display: block;
+
+                        .control{
+                            &:before{
+                                height: 40px;
+                                line-height: 40px;
+                            }
+                        }
+
+                        .field{
+                            max-width: 100%;
+                            margin: 0 0 15px 0;
+                            input{
+                                padding: 0 0 0 35px;
+                                box-sizing: border-box;
+                                width: 100%;
+                                display: block;
+                                box-shadow: inset 0 0 0px 2px #bebebe;
+                                border-radius: 5px;
+                                height: 40px;
+                                line-height: 40px;
+                                border: none;
+                                outline: none;
+                                margin: 0;
+                            }
+                        }
+
+                        .action.subscribe{
+                            border-radius: 3px;
+                            background-color: @blue;
+                            border: none;
+                            margin-left: 0;
+                            width: 100%;
+                            height: 40px;
+                            text-transform: uppercase;
+                            &:hover{
+                                border: none;
+                                background-color: lighten(@blue, 10%);
+                            }
+                        }
+                    }
+
+                    .coupon-code{
+                        display: none;
+                        h4{
+                            text-align: center;
+                        }
+                        .code{
+                            display: block;
+                            text-align: center;
+                            font-size: 40px;
+                            font-weight: bold;
+                            margin-bottom: 10px;
+                            color: @blue;
+                        }
+                        button{
+                            margin: 0 auto 30px;
+                            display: block;
+                        }
+                        &.visible{
+                            display: block;
+                        }
+                    }
+                }
+            }
+        } 
+    }
+
+    &.success{
+        .newsletter_banner,
+        .form.subscribe,
+        .newsletter_actions .content{
+            display: none !important;
+        }
+        .block.newsletter{
+            .newsletter_actions{
+                padding: 0;
+            }
+        }
+        .messages{
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sucesso{
+            margin-bottom: 20px;
+        }
+    }
+
+    .newsletter_close{
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 24px;
+        height: 24px;
+        background-color: @blue;
+        border-radius: 100%;
+        cursor: pointer;
+        &:before,
+        &:after{
+            content: '';
+            width: 12px;
+            height: 2px;
+            display: block;
+            border-radius: 2px;
+            background-color: @white; 
+            position: absolute;
+            top: 50%;
+            margin-top: -1px;
+            left: 6px;
+        }
+        &:before{
+            transform: rotate(45deg);
+        }
+        &:after{
+            transform: rotate(-45deg);
+        }
+    }
+}

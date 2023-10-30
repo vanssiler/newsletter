@@ -1,0 +1,102 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Newsletter\Block\Subscribe $block */
+
+    $om = \Magento\Framework\App\ObjectManager::getInstance();
+    $couponFactory = $om->get('Magento\SalesRule\Model\CouponFactory');
+    $ruleId = 5;
+    $p = 0;
+
+    $couponCodeData = $couponFactory->create()
+        ->getCollection()
+        ->addFieldToFilter('rule_id', $ruleId)
+        ->setPageSize(20)
+        ->setCurPage($p);
+
+?>
+<div class="newsletter_popup">
+    <div class="newsletter_overlay"></div>
+    <div class="newsletter_lightbox">
+        <div class="newsletter_close"></div>
+        <div class="block newsletter">
+            <div class="newsletter_banner">
+                <?php
+                    echo $this->getLayout()
+                    ->createBlock('Magento\Cms\Block\Block'::class)
+                    ->setBlockId('newsletter-banner')
+                    ->toHtml();
+                ?>
+            </div>
+            <div class="newsletter_actions">
+
+                <div class="content">
+                    <?php
+                        echo $this->getLayout()
+                        ->createBlock('Magento\Cms\Block\Block'::class)
+                        ->setBlockId('newsletter-content')
+                        ->toHtml();
+                    ?>                    
+                </div>
+                <div class="newsletter_actions__form">
+                    <form class="form subscribe"
+                        novalidate
+                        action="<?= $block->escapeUrl($block->getFormActionUrl()) ?>"
+                        method="post"
+                        data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                        id="newsletter-validate-detail">
+                        <div class="field newsletter">
+                            <div class="control">
+                                <label for="newsletter">
+                                    <span class="label">
+                                        <?= $block->escapeHtml(__('Sign Up for Our Newsletter:')) ?>
+                                    </span>
+                                    <input name="email" type="email" id="newsletter"
+                                        placeholder="<?= $block->escapeHtml(__('Digite seu melhor e-mail')) ?>"
+                                        data-mage-init='{"mage/trim-input":{}}'
+                                        data-validate="{required:true, 'validate-email':true}"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button class="action subscribe primary"
+                                    title="<?= $block->escapeHtmlAttr(__('Subscribe')) ?>"
+                                    type="submit"
+                                    aria-label="Subscribe">
+                                <span>Cadastrar</span>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="coupon-code">
+                        <div class="sucesso">
+                            <h4>Copie seu cupom abaixo e utilize na finalização do seu pedido. </br>Boas Compras!</h4>
+                        </div>
+                        <span class="code" id="coupon_code">
+                            <?php
+                                foreach ($couponCodeData as $item) {
+                                    echo $item->getcode();
+                                }
+                            ?>
+                        </span>
+                        <button id="copy_code">Copiar Código</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Customer/js/block-submit-on-send": {
+                "formId": "newsletter-validate-detail"
+            }
+        }
+    }
+</script>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="form.subscribe" template="Palacio_Newsletter::subscribe.phtml"/>
+        <move element="form.subscribe" destination="page.wrapper" after="-"/>
+        <referenceBlock name="newsletter_head_components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="ajax_newsletter_subscription" template="Palacio_Newsletter::ajax-newsletter-subscription.phtml"/>
+        </referenceBlock>
+
+    </body>
+</page>
